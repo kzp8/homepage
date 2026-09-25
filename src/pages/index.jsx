@@ -11,6 +11,7 @@ import useSWR, { SWRConfig } from "swr";
 
 import BookmarksGroup from "components/bookmarks/group";
 import ErrorBoundary from "components/errorboundry";
+import MeteorBackground from "components/MeteorBackground";
 import QuickLaunch from "components/quicklaunch";
 import ServicesGroup from "components/services/group";
 import Tab, { slugifyAndEncode } from "components/tab";
@@ -25,14 +26,6 @@ import { ThemeContext } from "utils/contexts/theme";
 import useWindowFocus from "utils/hooks/window-focus";
 import createLogger from "utils/logger";
 import themes from "utils/styles/themes";
-
-const ThemeToggle = dynamic(() => import("components/toggles/theme"), {
-  ssr: false,
-});
-
-const ColorToggle = dynamic(() => import("components/toggles/color"), {
-  ssr: false,
-});
 
 const SignOut = dynamic(() => import("components/toggles/signout"), {
   ssr: false,
@@ -510,10 +503,8 @@ function Home({ initialSettings }) {
 
         <div id="footer" className="flex flex-col mt-auto p-8 w-full">
           <div id="style" className="flex w-full justify-end">
-            {!settings?.color && <ColorToggle />}
             <Revalidate />
             <SignOut />
-            {!settings.theme && <ThemeToggle />}
           </div>
 
           <div id="version" className="flex mt-4 w-full justify-end">
@@ -555,8 +546,7 @@ export default function Wrapper({ initialSettings, fallback }) {
     html.classList.remove("dark", "scheme-dark", "scheme-light", "font-plex", "font-plex-data");
     if (initialSettings.font === "plex") html.classList.add("font-plex");
     if (initialSettings.font === "plexData") html.classList.add("font-plex-data");
-    html.classList.toggle("dark", theme === "dark");
-    html.classList.add(theme === "dark" ? "scheme-dark" : "scheme-light");
+    html.classList.add("dark", "scheme-dark");
 
     const desiredThemeClass = `theme-${color || initialSettings.color || "slate"}`;
     const themeClassesToRemove = Array.from(html.classList).filter(
@@ -577,10 +567,12 @@ export default function Wrapper({ initialSettings, fallback }) {
 
   return (
     <>
+      <MeteorBackground />
       {backgroundImage && (
         <div
-          id="background"
+          id="custom_background"
           aria-hidden="true"
+          className="absolute inset-0 z-0 pointer-events-none"
           style={{
             backgroundImage: `linear-gradient(rgb(var(--bg-color) / ${opacity}), rgb(var(--bg-color) / ${opacity})), url('${backgroundImage}')`,
           }}

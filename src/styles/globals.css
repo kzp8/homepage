@@ -26,22 +26,122 @@
 
 html,
 body,
-#__next {
+#__next,
+#page_wrapper,
+#inner_wrapper {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: rgb(var(--bg-color));
+  background-color: transparent !important;
+  background: transparent !important;
 }
 
-#background {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  pointer-events: none;
+/* Aurora Boreal Flowfield + Meteor Rain System */
+#background,
+.aurora-meteor-wrapper {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+  background-color: #030712 !important;
+  overflow: hidden !important;
+}
+
+.flowfield-canvas {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  filter: blur(14px) saturate(140%) !important;
+  opacity: 0.8 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transform: none !important;
+  pointer-events: none !important;
+}
+
+.meteor-canvas {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.meteor-container {
+  position: absolute !important;
+  inset: -20% !important;
+  width: 140vw !important;
+  height: 140vh !important;
+  transform: rotate(15deg) !important;
+  pointer-events: none !important;
+}
+
+i.meteor-drop {
+  position: absolute !important;
+  top: -200px !important;
+  height: 160px !important;
+  background: linear-gradient(transparent, rgba(255, 255, 255, 0.55)) !important;
+  border-bottom-left-radius: 5px !important;
+  border-bottom-right-radius: 5px !important;
+  animation-name: raining !important;
+  animation-timing-function: linear !important;
+  animation-iteration-count: infinite !important;
+}
+
+@keyframes raining {
+  0% {
+    transform: translateY(-160px);
+  }
+  100% {
+    transform: translateY(calc(140vh + 160px));
+  }
+}
+
+/* Liquid Glass Cards & UI Elements */
+.liquid-glass,
+.service-card,
+.quicklaunch-card,
+header.header,
+.group-header {
+  background: rgba(255, 255, 255, 0.12) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.35) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.service-card:hover,
+.quicklaunch-card:hover {
+  background: rgba(255, 255, 255, 0.22) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 14px 44px 0 rgba(99, 102, 241, 0.25), inset 0 1px 2px 0 rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-3px) scale(1.01) !important;
+}
+
+.dark .liquid-glass,
+.dark .service-card,
+.dark .quicklaunch-card,
+.dark header.header,
+.dark .group-header {
+  background: rgba(15, 23, 42, 0.45) !important;
+  backdrop-filter: blur(20px) saturate(190%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(190%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .service-card:hover,
+.dark .quicklaunch-card:hover {
+  background: rgba(30, 41, 59, 0.65) !important;
+  border-color: rgba(168, 85, 247, 0.45) !important;
+  box-shadow: 0 16px 48px 0 rgba(168, 85, 247, 0.22), inset 0 1px 2px 0 rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-3px) scale(1.01) !important;
 }
 
 html,
@@ -90,11 +190,151 @@ dialog ::-webkit-scrollbar {
   display: none;
 }
 
-.chart + .chart {
-  margin-top: 2em;
+/* ==========================================
+   CODEFRONTS LIQUID GLASS CARD SPECIFICATION
+   ========================================== */
+
+/* Prevent parent containers from clipping card drop shadows */
+.services-group,
+.bookmark-group,
+.service-list,
+.bookmark-list,
+[class*="headlessui-disclosure-panel"] {
+  overflow: visible !important;
 }
 
-.service-container + .chart {
-  margin-top: 2.5rem;
-  margin-bottom: .5rem;
+/* Remove internal child shadows and backgrounds that cause square borders */
+body .service-card *,
+body .quicklaunch-card *,
+body .bookmark * {
+  box-shadow: none !important;
 }
+
+.lg-01 {
+  --tint: rgba(255, 255, 255, 0.12);
+  perspective: 1100px;
+}
+
+.lg-01__card,
+.box,
+body .service-card,
+body .quicklaunch-card,
+body .bookmark,
+body header.header,
+body .group-header,
+body .widget {
+  position: relative !important;
+  border-radius: 20px !important;
+  color: #fff !important;
+  transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) !important;
+  transform-style: preserve-3d !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
+  backdrop-filter: blur(28px) saturate(220%) contrast(110%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(110%) !important;
+  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.4s, background 0.4s !important;
+  cursor: pointer !important;
+  overflow: hidden !important;
+}
+
+.lg-01__card::before,
+.box::before,
+body .service-card::before,
+body .quicklaunch-card::before,
+body .bookmark::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: radial-gradient(
+    220px 220px at var(--mx, 30%) var(--my, 20%),
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0) 60%
+  ) !important;
+  opacity: var(--gloss, 0.4) !important;
+  transition: opacity 0.3s ease !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.lg-01__spec,
+.lg-01__card::after,
+.box::after,
+body .service-card::after,
+body .quicklaunch-card::after,
+body .bookmark::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 46%, transparent 62%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.lg-01__badge {
+  position: relative;
+  z-index: 3;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.lg-01__title {
+  position: relative;
+  z-index: 3;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 16px 0 8px;
+}
+
+.lg-01__body {
+  position: relative;
+  z-index: 3;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
+}
+
+.lg-01__foot {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.lg-01__price {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.lg-01__cta {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a1330;
+}
+
+.lg-01__card:hover,
+.lg-01__card:focus-visible,
+body .service-card:hover,
+body .quicklaunch-card:hover,
+body .bookmark:hover {
+  box-shadow: 0 40px 80px -28px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+}
+
+
+
