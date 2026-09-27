@@ -210,131 +210,112 @@ body .bookmark * {
   box-shadow: none !important;
 }
 
-.lg-01 {
-  --tint: rgba(255, 255, 255, 0.12);
-  perspective: 1100px;
-}
-
-.lg-01__card,
-.box,
+/* Glass Distortion Filter Button & Card Effect */
+.glass-button,
+.liquid-glass,
 body .service-card,
 body .quicklaunch-card,
 body .bookmark,
 body header.header,
 body .group-header,
-body .widget {
+body .widget,
+button:not(.no-glass) {
+  --bg-color: rgba(255, 255, 255, 0.25);
+  --highlight: rgba(255, 255, 255, 0.75);
+  --text: #ffffff;
+
   position: relative !important;
-  border-radius: 20px !important;
-  color: #fff !important;
-  transform: rotateX(var(--ry, 0deg)) rotateY(var(--rx, 0deg)) !important;
-  transform-style: preserve-3d !important;
-  background: rgba(255, 255, 255, 0.16) !important;
-  border: 1px solid rgba(255, 255, 255, 0.35) !important;
-  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.5) !important;
-  backdrop-filter: blur(28px) saturate(220%) contrast(110%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(220%) contrast(110%) !important;
-  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.2, 1), box-shadow 0.4s, background 0.4s !important;
+  border: none !important;
+  border-radius: 14px !important;
   cursor: pointer !important;
   overflow: hidden !important;
+  background: transparent !important;
+  transition: transform 0.2s ease, box-shadow 0.3s ease !important;
+  outline: none !important;
 }
 
-.lg-01__card::before,
-.box::before,
-body .service-card::before,
-body .quicklaunch-card::before,
-body .bookmark::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  background: radial-gradient(
-    220px 220px at var(--mx, 30%) var(--my, 20%),
-    rgba(255, 255, 255, 0.55),
-    rgba(255, 255, 255, 0) 60%
-  ) !important;
-  opacity: var(--gloss, 0.4) !important;
-  transition: opacity 0.3s ease !important;
-  pointer-events: none !important;
-  z-index: 2 !important;
+.dark .glass-button,
+.dark .liquid-glass,
+.dark body .service-card,
+.dark body .quicklaunch-card,
+.dark body .bookmark,
+.dark body header.header,
+.dark body .group-header,
+.dark body .widget,
+.dark button:not(.no-glass) {
+  --bg-color: rgba(0, 0, 0, 0.25);
+  --highlight: rgba(255, 255, 255, 0.15);
 }
 
-.lg-01__spec,
-.lg-01__card::after,
-.box::after,
-body .service-card::after,
-body .quicklaunch-card::after,
-body .bookmark::after {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  border-radius: inherit !important;
-  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.18) 46%, transparent 62%) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
-}
-
-.lg-01__badge {
-  position: relative;
-  z-index: 3;
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.22);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-}
-
-.lg-01__title {
-  position: relative;
-  z-index: 3;
-  font-size: 24px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  margin: 16px 0 8px;
-}
-
-.lg-01__body {
-  position: relative;
-  z-index: 3;
-  font-size: 14px;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35);
-}
-
-.lg-01__foot {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.lg-01__price {
-  font-size: 22px;
-  font-weight: 800;
-}
-
-.lg-01__cta {
-  font-size: 14px;
-  font-weight: 600;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.9);
-  color: #1a1330;
-}
-
-.lg-01__card:hover,
-.lg-01__card:focus-visible,
+.glass-button:hover,
 body .service-card:hover,
 body .quicklaunch-card:hover,
-body .bookmark:hover {
-  box-shadow: 0 40px 80px -28px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.6) !important;
+body .bookmark:hover,
+button:not(.no-glass):hover {
+  transform: scale(1.03) !important;
 }
+
+.glass-button:active,
+body .service-card:active,
+body .quicklaunch-card:active,
+body .bookmark:active,
+button:not(.no-glass):active {
+  transform: scale(0.97) !important;
+}
+
+/* Glass filter, overlay and specular pseudo-layers */
+.glass-button::before,
+.liquid-glass::before,
+body .service-card::before,
+body .quicklaunch-card::before,
+body .bookmark::before,
+body header.header::before,
+body .group-header::before,
+body .widget::before,
+button:not(.no-glass)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  z-index: 1 !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  filter: url(#glass-distortion) saturate(120%) brightness(1.15) !important;
+  pointer-events: none !important;
+}
+
+.glass-button::after,
+.liquid-glass::after,
+body .service-card::after,
+body .quicklaunch-card::after,
+body .bookmark::after,
+body header.header::after,
+body .group-header::after,
+body .widget::after,
+button:not(.no-glass)::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  border-radius: inherit !important;
+  z-index: 2 !important;
+  background: var(--bg-color) !important;
+  box-shadow: inset 1px 1px 1px var(--highlight) !important;
+  pointer-events: none !important;
+}
+
+/* Ensure content sits on top of glass layers */
+.glass-content,
+body .service-card > *,
+body .quicklaunch-card > *,
+body .bookmark > *,
+body header.header > *,
+body .group-header > *,
+body .widget > *,
+button:not(.no-glass) > * {
+  position: relative !important;
+  z-index: 4 !important;
+}
+
 
 
 
